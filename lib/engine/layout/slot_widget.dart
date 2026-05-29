@@ -618,11 +618,14 @@ class _SlotWidgetState extends State<SlotWidget> {
                                           orElse: () => null,
                                         );
                                     if (inputInfo != null) {
-                                      var valStr = inputInfo
-                                          .toJson()['value']
-                                          .toString();
+                                      var valStr = item.template;
+                                      final jsonMap = inputInfo.toJson();
+                                      for (final key in item.keys) {
+                                        final val = jsonMap[key]?.toString() ?? '';
+                                        valStr = valStr.replaceAll('{$key}', val);
+                                      }
                                       if (valStr.isNotEmpty &&
-                                          item.refId != 'symbol') {
+                                          valStr != chart.meta.shortName) {
                                         inputParams.add(valStr);
                                       }
                                     }
